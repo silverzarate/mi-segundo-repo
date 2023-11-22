@@ -1,0 +1,36 @@
+<?php
+    class matriculaController {
+        private $model;
+        
+        public function __construct() {
+            include_once ($_SERVER['DOCUMENT_ROOT'].'/tallerphp17/routes.php');
+            require_once(MODEL_PATH.'matriculaModel.php');
+            $this->model = new matriculaModel();
+        }
+        public function insert($nombre,$apellido,$idCiudad){
+            
+            $id = $this->model->insertar($nombre,$apellido,$idCiudad);
+            return ($id!=false) ? header('location: ./index.php') : header('location: ./create.php');
+        }
+        
+        public function update($id,$nombre,$apellido,$idCiudad){
+            return ($this->model->actualizar($id,$nombre,$apellido,$idCiudad) != false) ? header('location: ./index.php') : header('location: ./edit.php?id='.$id);
+        }
+        
+        public function delete($id){
+            return ($this->model->eliminar($id)) ? header('location: ./index.php') : header('location: ./index.php') ;
+        }
+        
+        public function search($id){
+            return ($this->model->buscar($id) != false) ? $this->model->buscar($id) : header('location: ./index.php');
+        }
+        
+        public function select(){
+            return ($this->model->listar()) ? $this->model->listar() : false;
+        } 
+         public function combolist(){
+            return ($this->model->cargarDesplegable()) ? $this->model->cargarDesplegable() : false;
+        }
+               
+        //agregar funciones faltantes
+    }
